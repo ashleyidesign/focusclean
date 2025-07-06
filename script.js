@@ -115,6 +115,142 @@ const tasks = {
     }
 };
 
+// Speed Clean Data
+const speedCleanTasks = {
+    30: [ // 30 minutes - the essentials
+        { id: 'sc1', text: '10-minute pickup/declutter main areas', completed: false },
+        { id: 'sc2', text: 'Take out visible trash', completed: false },
+        { id: 'sc3', text: 'Wipe down kitchen counters and sink', completed: false },
+        { id: 'sc4', text: 'Quick clean guest bathroom (toilet, sink, mirror)', completed: false },
+        { id: 'sc5', text: 'Clear and wipe dining table', completed: false },
+        { id: 'sc6', text: 'Fluff couch cushions and fold throws', completed: false },
+        { id: 'sc7', text: 'Load dishwasher or hide dirty dishes', completed: false }
+    ],
+    60: [ // 1 hour - more thorough
+        { id: 'sc8', text: '15-minute pickup/declutter main areas', completed: false },
+        { id: 'sc9', text: 'Vacuum/sweep visible floors', completed: false },
+        { id: 'sc10', text: 'Wipe down kitchen counters, sink, and appliances', completed: false },
+        { id: 'sc11', text: 'Clean guest bathroom thoroughly', completed: false },
+        { id: 'sc12', text: 'Dust coffee table and TV stand', completed: false },
+        { id: 'sc13', text: 'Clear and wipe all visible surfaces', completed: false },
+        { id: 'sc14', text: 'Make beds and fluff pillows', completed: false },
+        { id: 'sc15', text: 'Take out all trash and recycling', completed: false },
+        { id: 'sc16', text: 'Quick mop kitchen and bathroom floors', completed: false },
+        { id: 'sc17', text: 'Ensure fresh guest towels are out', completed: false }
+    ],
+    120: [ // 2 hours - really impressive
+        { id: 'sc18', text: '20-minute deep declutter all main areas', completed: false },
+        { id: 'sc19', text: 'Vacuum all floors and rugs', completed: false },
+        { id: 'sc20', text: 'Deep clean kitchen (counters, sink, appliances, floor)', completed: false },
+        { id: 'sc21', text: 'Thoroughly clean both bathrooms', completed: false },
+        { id: 'sc22', text: 'Dust all visible surfaces and electronics', completed: false },
+        { id: 'sc23', text: 'Clean all mirrors and windows', completed: false },
+        { id: 'sc24', text: 'Organize and style living areas', completed: false },
+        { id: 'sc25', text: 'Fresh linens on guest bed', completed: false },
+        { id: 'sc26', text: 'Mop all hard floors', completed: false },
+        { id: 'sc27', text: 'Light candles or air freshener', completed: false },
+        { id: 'sc28', text: 'Quick tidy of mud room and entryway', completed: false },
+        { id: 'sc29', text: 'Wipe down light switches and door handles', completed: false }
+    ]
+};
+
+// Speed Clean Functions
+function showSpeedClean() {
+    let modal = document.getElementById('speed-clean-modal');
+    if (!modal) {
+        modal = createSpeedCleanModal();
+        document.body.appendChild(modal);
+    }
+    
+    // Reset to 30 minutes by default
+    selectTimeOption(30);
+    modal.classList.add('active');
+}
+
+function createSpeedCleanModal() {
+    const modal = document.createElement('div');
+    modal.id = 'speed-clean-modal';
+    modal.className = 'speed-clean-modal';
+    
+    modal.innerHTML = `
+        <div class="speed-clean-content">
+            <div class="speed-clean-header">
+                <h2 class="speed-clean-title">⚡ Speed Clean</h2>
+                <p class="speed-clean-subtitle-modal">High-impact tasks for unexpected guests</p>
+            </div>
+            
+            <div class="time-selector">
+                <p style="margin: 0 0 10px 0; font-weight: 600;">How much time do you have?</p>
+                <div class="time-options">
+                    <div class="time-option" data-time="30" onclick="selectTimeOption(30)">30 min</div>
+                    <div class="time-option" data-time="60" onclick="selectTimeOption(60)">1 hour</div>
+                    <div class="time-option" data-time="120" onclick="selectTimeOption(120)">2 hours</div>
+                </div>
+            </div>
+            
+            <div class="speed-tasks-container" id="speed-tasks-container">
+                <!-- Tasks will be populated here -->
+            </div>
+            
+            <div class="speed-clean-footer">
+                <button class="close-speed-btn" onclick="closeSpeedClean()">Done</button>
+            </div>
+        </div>
+    `;
+    
+    return modal;
+}
+
+function selectTimeOption(minutes) {
+    // Update visual selection
+    document.querySelectorAll('.time-option').forEach(option => {
+        option.classList.remove('selected');
+    });
+    document.querySelector(`[data-time="${minutes}"]`).classList.add('selected');
+    
+    // Load tasks for selected time
+    loadSpeedCleanTasks(minutes);
+}
+
+function loadSpeedCleanTasks(minutes) {
+    const container = document.getElementById('speed-tasks-container');
+    container.innerHTML = '';
+    
+    const tasks = speedCleanTasks[minutes] || [];
+    
+    tasks.forEach(task => {
+        const taskItem = document.createElement('div');
+        taskItem.className = 'speed-task-item';
+        taskItem.dataset.taskId = task.id;
+        
+        taskItem.innerHTML = `
+            <div class="speed-checkbox" onclick="toggleSpeedTask('${task.id}')"></div>
+            <div class="speed-task-text">${task.text}</div>
+        `;
+        
+        container.appendChild(taskItem);
+    });
+}
+
+function toggleSpeedTask(taskId) {
+    const taskItem = document.querySelector(`[data-task-id="${taskId}"]`);
+    const checkbox = taskItem.querySelector('.speed-checkbox');
+    const isCompleted = taskItem.classList.contains('completed');
+    
+    if (isCompleted) {
+        taskItem.classList.remove('completed');
+        checkbox.classList.remove('checked');
+    } else {
+        taskItem.classList.add('completed');
+        checkbox.classList.add('checked');
+    }
+}
+
+function closeSpeedClean() {
+    const modal = document.getElementById('speed-clean-modal');
+    if (modal) modal.classList.remove('active');
+}
+
 // App State
 let currentWeek = 1;
 let currentDate = new Date();
