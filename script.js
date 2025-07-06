@@ -104,6 +104,14 @@ function getCurrentWeekOfYear() {
     return Math.floor(diff / oneWeek) + 1;
 }
 
+function getCurrentSeason() {
+    const month = new Date().getMonth() + 1; // 1-12
+    if (month >= 3 && month <= 8) {
+        return "spring-summer";
+    }
+    return "fall-winter";
+}
+
 function getCurrentFocusRoom() {
     const weekOfYear = getCurrentWeekOfYear();
     const season = getCurrentSeason();
