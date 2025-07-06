@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocusClean</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="date" id="current-date">Sunday, July 6, 2025</div>
+            <h1 class="app-title">Today</h1>
+        </div>
+
+        <div class="focus-room">
+            <div class="focus-label">This Week's Focus</div>
+            <div class="focus-name" id="focus-room-name">Kitchen + Dining Room</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="focus-progress"></div>
+            </div>
+        </div>
+
+        <div class="today-progress">
+            <div class="progress-label">Today's Progress</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="today-progress"></div>
+            </div>
+        </div>
+
+        <div class="task-section">
+            <div class="section-header">
+                <div class="section-title">Today's Tasks</div>
+                <div class="task-count" id="task-count">0</div>
+            </div>
+            <div class="task-list" id="task-list">
+                <!-- Tasks will be dynamically generated here -->
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item active" data-page="today">
+            <div class="nav-icon">🏠</div>
+            <div>Today</div>
+        </div>
+        <div class="nav-item" data-page="tasks">
+            <div class="nav-icon">📋</div>
+            <div>Tasks</div>
+        </div>
+        <div class="nav-item" data-page="schedule">
+            <div class="nav-icon">📅</div>
+            <div>Schedule</div>
+        </div>
+        <div class="nav-item" data-page="settings">
+            <div class="nav-icon">⚙️</div>
+            <div>Settings</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
