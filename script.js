@@ -32,10 +32,14 @@ const tasks = {
         { id: 15, text: "Organize one closet", completed: false, date: 25 }
     ],
     quarterly: [
-        { id: 16, text: "Clean out basement storage", completed: false },
-        { id: 17, text: "Organize garage", completed: false },
-        { id: 18, text: "Deep clean carpets", completed: false },
-        { id: 19, text: "Check smoke detector batteries", completed: false }
+        { id: 16, text: "Sweep garage floors", completed: false },
+        { id: 17, text: "Organize garage tools/gear", completed: false },
+        { id: 18, text: "Blow out garage dust/cobwebs", completed: false },
+        { id: 19, text: "Vacuum or mop basement floor", completed: false },
+        { id: 20, text: "Disinfect gym equipment", completed: false },
+        { id: 21, text: "Declutter basement shelves or gear bins", completed: false },
+        { id: 22, text: "Deep clean carpets", completed: false },
+        { id: 23, text: "Check smoke detector batteries", completed: false }
     ],
     yearly: [
         { id: 20, text: "Deep clean windows", completed: false, month: 4 }, // May
@@ -45,40 +49,68 @@ const tasks = {
     ],
     focus: {
         1: [ // Kitchen + Dining Room
-            { id: 24, text: "Clean out refrigerator", completed: false },
-            { id: 25, text: "Organize spice cabinet/pantry", completed: false },
-            { id: 26, text: "Deep clean stovetop and oven", completed: false },
-            { id: 27, text: "Wipe down dining chairs", completed: false }
+            { id: 24, text: "Wipe down counters and appliances", completed: false },
+            { id: 25, text: "Clean sink and faucet", completed: false },
+            { id: 26, text: "Clean out fridge", completed: false },
+            { id: 27, text: "Clean inside microwave", completed: false },
+            { id: 28, text: "Wipe cabinets and handles", completed: false },
+            { id: 29, text: "Organize pantry or drawers", completed: false },
+            { id: 30, text: "Wipe down dining table and chairs", completed: false },
+            { id: 31, text: "Shake out or vacuum dining rug", completed: false },
+            { id: 32, text: "Clean dining light fixture", completed: false },
+            { id: 33, text: "Dust surfaces or hutch", completed: false }
         ],
         2: [ // Bedroom + Bathroom
-            { id: 28, text: "Organize dresser drawers", completed: false },
-            { id: 29, text: "Deep clean bathroom tiles", completed: false },
-            { id: 30, text: "Wash bedding and pillows", completed: false },
-            { id: 31, text: "Clean out medicine cabinet", completed: false }
+            { id: 34, text: "Change bedding", completed: false },
+            { id: 35, text: "Dust surfaces and lamps", completed: false },
+            { id: 36, text: "Declutter nightstands", completed: false },
+            { id: 37, text: "Organize closet or drawers", completed: false },
+            { id: 38, text: "Clean bedroom mirror and windows", completed: false },
+            { id: 39, text: "Scrub toilet, sink, and shower", completed: false },
+            { id: 40, text: "Clean bathroom mirror and fixtures", completed: false },
+            { id: 41, text: "Wipe washer/dryer", completed: false },
+            { id: 42, text: "Wash bath mats and towels", completed: false },
+            { id: 43, text: "Clean grout and baseboards", completed: false }
         ],
         3: [ // Guest Room + Office
-            { id: 32, text: "Organize desk drawers", completed: false },
-            { id: 33, text: "Dust electronics and cables", completed: false },
-            { id: 34, text: "Fresh linens in guest room", completed: false },
-            { id: 35, text: "File important documents", completed: false }
+            { id: 44, text: "Dust office desk, monitor, and shelves", completed: false },
+            { id: 45, text: "Empty office trash/recycling", completed: false },
+            { id: 46, text: "Wipe down electronics", completed: false },
+            { id: 47, text: "Declutter desk drawers or paper piles", completed: false },
+            { id: 48, text: "Vacuum guest room rug and under bed", completed: false },
+            { id: 49, text: "Dust guest room surfaces and décor", completed: false },
+            { id: 50, text: "Wash guest bedding", completed: false },
+            { id: 51, text: "Clean guest room windows and blinds", completed: false },
+            { id: 52, text: "Declutter guest closet or drawers", completed: false }
         ],
         4: [ // Living Room + Mud Room
-            { id: 35, text: "Deep clean couch cushions", completed: false },
-            { id: 36, text: "Organize entertainment center", completed: false },
-            { id: 37, text: "Clean light fixtures", completed: false },
-            { id: 38, text: "Dust decorative items", completed: false },
-            { id: 39, text: "Organize shoes and boots", completed: false },
-            { id: 40, text: "Clean out coat pockets", completed: false },
-            { id: 41, text: "Organize cleaning supplies", completed: false }
+            { id: 53, text: "Vacuum living room rug and couch", completed: false },
+            { id: 54, text: "Dust electronics, TV, and surfaces", completed: false },
+            { id: 55, text: "Wipe down remotes and switches", completed: false },
+            { id: 56, text: "Fluff and rotate cushions", completed: false },
+            { id: 57, text: "Clean living room windows and sills", completed: false },
+            { id: 58, text: "Organize books/magazines", completed: false },
+            { id: 59, text: "Wipe mud room table and surfaces", completed: false },
+            { id: 60, text: "Organize shoes/jackets", completed: false },
+            { id: 61, text: "Clean mud room mirror or wall hooks", completed: false },
+            { id: 62, text: "Dust mud room displays/shelves", completed: false },
+            { id: 63, text: "Vacuum mud room closet floor", completed: false }
         ],
         5: [ // Porch + Garden + Yard (seasonal)
-            { id: 42, text: "Sweep and wash porch", completed: false },
-            { id: 43, text: "Clean porch furniture", completed: false },
-            { id: 44, text: "Weed garden beds", completed: false },
-            { id: 45, text: "Mow lawn", completed: false },
-            { id: 46, text: "Trim bushes/hedges", completed: false },
-            { id: 47, text: "Water plants", completed: false },
-            { id: 48, text: "Check for maintenance needs", completed: false }
+            { id: 64, text: "Sweep porch floor and steps", completed: false },
+            { id: 65, text: "Wipe down door and trim", completed: false },
+            { id: 66, text: "Clean porch light fixtures", completed: false },
+            { id: 67, text: "Shake out or vacuum mat", completed: false },
+            { id: 68, text: "Dust porch shelves, décor, or railings", completed: false },
+            { id: 69, text: "Wash storm door or windows", completed: false },
+            { id: 70, text: "Pull weeds from garden", completed: false },
+            { id: 71, text: "Trim dead/damaged plant material", completed: false },
+            { id: 72, text: "Sweep or edge garden borders", completed: false },
+            { id: 73, text: "Clean/adjust garden decor or solar lights", completed: false },
+            { id: 74, text: "Pick up sticks/debris from yard", completed: false },
+            { id: 75, text: "Hose down or clean outdoor furniture", completed: false },
+            { id: 76, text: "Organize/clean grill or fire pit", completed: false },
+            { id: 77, text: "Clean siding or windows at eye level", completed: false }
         ]
     }
 };
