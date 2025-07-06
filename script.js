@@ -318,6 +318,45 @@ function updateProgress() {
     // Update task count (remaining tasks)
     const remainingTasks = todayTasks.length - completedToday.length;
     document.getElementById('task-count').textContent = remainingTasks;
+    
+    // Check if all tasks are completed and trigger celebration
+    if (todayTasks.length > 0 && remainingTasks === 0) {
+        triggerCelebration();
+    }
+}
+
+function triggerCelebration() {
+    // Create celebration overlay
+    const celebration = document.createElement('div');
+    celebration.className = 'celebration';
+    
+    // Create confetti
+    for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.animationDelay = Math.random() * 3 + 's';
+        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        celebration.appendChild(confetti);
+    }
+    
+    // Create celebration message
+    const message = document.createElement('div');
+    message.className = 'celebration-message';
+    message.innerHTML = '🎉<br>All Done!<br>Great Job! 🎉';
+    
+    // Add to page
+    document.body.appendChild(celebration);
+    document.body.appendChild(message);
+    
+    // Remove after animation
+    setTimeout(() => {
+        message.classList.add('fade-out');
+        setTimeout(() => {
+            if (celebration.parentNode) celebration.parentNode.removeChild(celebration);
+            if (message.parentNode) message.parentNode.removeChild(message);
+        }, 500);
+    }, 2500);
 }
 
 // Navigation
