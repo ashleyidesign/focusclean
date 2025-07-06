@@ -5,10 +5,8 @@ const rooms = {
     1: { name: "Kitchen + Dining Room", season: "all" },
     2: { name: "Bedroom + Bathroom", season: "all" },
     3: { name: "Guest Room + Office", season: "all" },
-    4: { name: "Living Room", season: "all" },
-    5: { name: "Mud Room", season: "all" },
-    6: { name: "Porch", season: "all" },
-    7: { name: "Garden + Yard", season: "spring-summer" }
+    4: { name: "Living Room + Mud Room", season: "all" },
+    5: { name: "Porch + Garden + Yard", season: "spring-summer" }
 };
 
 const tasks = {
@@ -20,72 +18,67 @@ const tasks = {
         { id: 5, text: "Check mail", completed: false }
     ],
     weekly: [
-        { id: 6, text: "Vacuum main living areas", completed: false, day: 0 }, // Sunday
-        { id: 7, text: "Take out trash and recycling", completed: false, day: 1 }, // Monday
-        { id: 8, text: "Do laundry", completed: false, day: 3 }, // Wednesday
-        { id: 9, text: "Clean mirrors", completed: false, day: 5 }, // Friday
-        { id: 10, text: "Dust surfaces", completed: false, day: 6 } // Saturday
+        { id: 6, text: "Vacuum main living areas", completed: false, day: 1 }, // Monday
+        { id: 7, text: "Dust surfaces", completed: false, day: 1 }, // Monday  
+        { id: 8, text: "Do laundry", completed: false, day: 2 }, // Tuesday
+        { id: 9, text: "Vacuum again (mid-week)", completed: false, day: 4 }, // Thursday
+        { id: 10, text: "Focus area deep clean", completed: false, day: 6 }, // Saturday
+        { id: 11, text: "Meal prep", completed: false, day: 0 } // Sunday
     ],
     monthly: [
-        { id: 11, text: "Clean out car", completed: false, date: 1 },
-        { id: 12, text: "Pay bills review", completed: false, date: 15 },
-        { id: 13, text: "Deep clean appliances", completed: false, date: 20 },
-        { id: 14, text: "Organize one closet", completed: false, date: 25 }
+        { id: 12, text: "Clean out car", completed: false, date: 1 },
+        { id: 13, text: "Pay bills review", completed: false, date: 15 },
+        { id: 14, text: "Deep clean appliances", completed: false, date: 20 },
+        { id: 15, text: "Organize one closet", completed: false, date: 25 }
     ],
     quarterly: [
-        { id: 15, text: "Clean out basement storage", completed: false },
-        { id: 16, text: "Organize garage", completed: false },
-        { id: 17, text: "Deep clean carpets", completed: false },
-        { id: 18, text: "Check smoke detector batteries", completed: false }
+        { id: 16, text: "Clean out basement storage", completed: false },
+        { id: 17, text: "Organize garage", completed: false },
+        { id: 18, text: "Deep clean carpets", completed: false },
+        { id: 19, text: "Check smoke detector batteries", completed: false }
     ],
     yearly: [
-        { id: 19, text: "Deep clean windows", completed: false, month: 4 }, // May
-        { id: 20, text: "Clean out gutters", completed: false, month: 10 }, // November
-        { id: 21, text: "Service HVAC", completed: false, month: 3 }, // April
-        { id: 22, text: "Organize tax documents", completed: false, month: 1 } // February
+        { id: 20, text: "Deep clean windows", completed: false, month: 4 }, // May
+        { id: 21, text: "Clean out gutters", completed: false, month: 10 }, // November
+        { id: 22, text: "Service HVAC", completed: false, month: 3 }, // April
+        { id: 23, text: "Organize tax documents", completed: false, month: 1 } // February
     ],
     focus: {
         1: [ // Kitchen + Dining Room
-            { id: 23, text: "Clean out refrigerator", completed: false },
-            { id: 24, text: "Organize spice cabinet/pantry", completed: false },
-            { id: 25, text: "Deep clean stovetop and oven", completed: false },
-            { id: 26, text: "Wipe down dining chairs", completed: false }
+            { id: 24, text: "Clean out refrigerator", completed: false },
+            { id: 25, text: "Organize spice cabinet/pantry", completed: false },
+            { id: 26, text: "Deep clean stovetop and oven", completed: false },
+            { id: 27, text: "Wipe down dining chairs", completed: false }
         ],
         2: [ // Bedroom + Bathroom
-            { id: 27, text: "Organize dresser drawers", completed: false },
-            { id: 28, text: "Deep clean bathroom tiles", completed: false },
-            { id: 29, text: "Wash bedding and pillows", completed: false },
-            { id: 30, text: "Clean out medicine cabinet", completed: false }
+            { id: 28, text: "Organize dresser drawers", completed: false },
+            { id: 29, text: "Deep clean bathroom tiles", completed: false },
+            { id: 30, text: "Wash bedding and pillows", completed: false },
+            { id: 31, text: "Clean out medicine cabinet", completed: false }
         ],
         3: [ // Guest Room + Office
-            { id: 31, text: "Organize desk drawers", completed: false },
-            { id: 32, text: "Dust electronics and cables", completed: false },
-            { id: 33, text: "Fresh linens in guest room", completed: false },
-            { id: 34, text: "File important documents", completed: false }
+            { id: 32, text: "Organize desk drawers", completed: false },
+            { id: 33, text: "Dust electronics and cables", completed: false },
+            { id: 34, text: "Fresh linens in guest room", completed: false },
+            { id: 35, text: "File important documents", completed: false }
         ],
-        4: [ // Living Room
+        4: [ // Living Room + Mud Room
             { id: 35, text: "Deep clean couch cushions", completed: false },
             { id: 36, text: "Organize entertainment center", completed: false },
             { id: 37, text: "Clean light fixtures", completed: false },
-            { id: 38, text: "Dust decorative items", completed: false }
-        ],
-        5: [ // Mud Room
+            { id: 38, text: "Dust decorative items", completed: false },
             { id: 39, text: "Organize shoes and boots", completed: false },
             { id: 40, text: "Clean out coat pockets", completed: false },
-            { id: 41, text: "Wipe down surfaces", completed: false },
-            { id: 42, text: "Organize cleaning supplies", completed: false }
+            { id: 41, text: "Organize cleaning supplies", completed: false }
         ],
-        6: [ // Porch
-            { id: 43, text: "Sweep and wash porch", completed: false },
-            { id: 44, text: "Clean porch furniture", completed: false },
-            { id: 45, text: "Organize outdoor items", completed: false },
-            { id: 46, text: "Check for maintenance needs", completed: false }
-        ],
-        7: [ // Garden + Yard (seasonal)
-            { id: 47, text: "Weed garden beds", completed: false },
-            { id: 48, text: "Mow lawn", completed: false },
-            { id: 49, text: "Trim bushes/hedges", completed: false },
-            { id: 50, text: "Water plants", completed: false }
+        5: [ // Porch + Garden + Yard (seasonal)
+            { id: 42, text: "Sweep and wash porch", completed: false },
+            { id: 43, text: "Clean porch furniture", completed: false },
+            { id: 44, text: "Weed garden beds", completed: false },
+            { id: 45, text: "Mow lawn", completed: false },
+            { id: 46, text: "Trim bushes/hedges", completed: false },
+            { id: 47, text: "Water plants", completed: false },
+            { id: 48, text: "Check for maintenance needs", completed: false }
         ]
     }
 };
@@ -97,30 +90,37 @@ let currentDate = new Date();
 // Utility Functions
 function getCurrentWeekOfYear() {
     const now = new Date();
-    const start = new Date(now.getFullYear(), 0, 1);
-    const diff = now - start;
+    // Get Monday of current week
+    const monday = new Date(now);
+    monday.setDate(now.getDate() - now.getDay() + 1);
+    
+    // Get Monday of first week of year
+    const firstMonday = new Date(now.getFullYear(), 0, 1);
+    firstMonday.setDate(1 + (8 - firstMonday.getDay()) % 7);
+    
+    // Calculate week number
+    const diff = monday - firstMonday;
     const oneWeek = 1000 * 60 * 60 * 24 * 7;
-    return Math.ceil(diff / oneWeek);
-}
-
-function getCurrentSeason() {
-    const month = new Date().getMonth() + 1; // 1-12
-    if (month >= 3 && month <= 8) {
-        return "spring-summer";
-    }
-    return "fall-winter";
+    return Math.floor(diff / oneWeek) + 1;
 }
 
 function getCurrentFocusRoom() {
     const weekOfYear = getCurrentWeekOfYear();
     const season = getCurrentSeason();
     
-    // Cycle through rooms based on week
-    let roomWeek = (weekOfYear % 7) || 7;
+    // 4-week cycle
+    let roomWeek = ((weekOfYear - 1) % 4) + 1;
     
-    // Skip garden/yard in fall/winter
-    if (roomWeek === 7 && season === "fall-winter") {
-        roomWeek = (weekOfYear % 6) || 6;
+    // Skip outdoor room in fall/winter, cycle through 1-4 instead
+    if (roomWeek === 4 && season === "fall-winter") {
+        // If it would be outdoor week, pick room 5 (but we only have 1-4 in winter)
+        // So we'll extend one of the other weeks or cycle back
+        roomWeek = ((weekOfYear - 1) % 3) + 1; // Cycle through 1-3
+    }
+    
+    // For outdoor season, include room 5 in the rotation
+    if (season === "spring-summer" && roomWeek === 4) {
+        return 5; // Porch + Garden + Yard
     }
     
     return roomWeek;
