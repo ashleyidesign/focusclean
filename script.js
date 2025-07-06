@@ -369,19 +369,321 @@ function initNavigation() {
             document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
             this.classList.add('active');
             
-            // Handle page switching (placeholder for now)
+            // Hide all views
+            document.querySelectorAll('.page-view').forEach(view => view.classList.remove('active'));
+            
+            // Show selected view
             if (page === 'today') {
+                document.getElementById('today-view').classList.add('active');
                 renderTodayView();
-            } else {
-                console.log(`Navigate to ${page} page`);
-                // TODO: Implement other pages
+            } else if (page === 'tasks') {
+                document.getElementById('tasks-view').classList.add('active');
+                renderTasksView();
+            } else if (page === 'schedule') {
+                document.getElementById('schedule-view').classList.add('active');
+            } else if (page === 'settings') {
+                document.getElementById('settings-view').classList.add('active');
             }
         });
     });
 }
 
+// Task Management Functions
+function renderTasksView() {
+    renderTaskCategory('daily');
+    renderTaskCategory('weekly');
+    renderTaskCategory('monthly');
+    renderFocusRoomTasks();
+    initTaskManagement();
+}
+
+function renderTaskCategory(category) {
+    const container = document.getElementById(`${category}-tasks`);
+    container.innerHTML = '';
+    
+    tasks[category].forEach(task => {
+        const taskItem = createTaskManagementItem(task, category);
+        container.appendChild(taskItem);
+    });
+}
+
+function renderFocusRoomTasks() {
+    const roomSelect = document.getElementById('focus-room-select');
+    const selectedRoom = parseInt(roomSelect.value) || 1;
+    const container = document.getElementById('focus-tasks');
+    container.innerHTML = '';
+    
+    if (tasks.focus[selectedRoom]) {
+        tasks.focus[selectedRoom].forEach(task => {
+            const taskItem = createTaskManagementItem(task, 'focus', selectedRoom);
+            container.appendChild(taskItem);
+        });
+    }
+}
+
+function createTaskManagementItem(task, category, roomId = null) {
+    const item = document.createElement('div');
+    item.className = 'task-management-item';
+    item.dataset.taskId = task.id;
+    item.dataset.category = category;
+    if (roomId) item.dataset.roomId = roomId;
+    
+    let scheduleText = '';
+    if (category === 'weekly' && task.day !== undefined) {
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        scheduleText = `Every ${days[task.day]}`;
+    } else if (category === 'monthly' && task.date) {
+        scheduleText = `On the ${task.date}${getOrdinalSuffix(task.date)} of each month`;
+    } else if (category === 'yearly' && task.month) {
+        const months = ['', 'January', 'February', 'March', 'April', 'May', 'June', 
+                       'July', 'August', 'September', 'October', 'November', 'December'];
+        scheduleText = `Every ${months[task.month]}`;
+    } else if (category === 'daily') {
+        scheduleText = 'Every day';
+    } else if (category === 'focus') {
+        scheduleText = 'During focus week';
+    }
+    
+    item.innerHTML = `
+        <div class="task-content">
+            <div class="task-management-text">${task.text}</div>
+            <div class="task-schedule">${scheduleText}</div>
+        </div>
+        <div class="task-actions">
+            <button class="edit-btn" onclick="editTask(${task.id}, '${category}', ${roomId})">Edit</button>
+            <button class="delete-btn" onclick="deleteTask(${task.id}, '${category}', ${roomId})">Delete</button>
+        </div>
+    `;
+    
+    return item;
+}
+
+function getOrdinalSuffix(day) {
+    if (day > 3 && day < 21) return 'th';
+    switch (day % 10) {
+        case 1: return 'st';
+        case 2: return 'nd';
+        case 3: return 'rd';
+        default: return 'th';
+    }
+}
+
+function initTaskManagement() {
+    // Room selection change
+    document.getElementById('focus-room-select').addEventListener('change', renderFocusRoomTasks);
+    
+    // Add task buttons
+    document.querySelectorAll('.add-task-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const category = this.dataset.category;
+            const roomId = category === 'focus' ? parseInt(document.getElementById('focus-room-select').value) : null;
+            showTaskModal('add', category, null, roomId);
+        });
+    });
+}
+
+// Modal functions
+function showTaskModal(mode, category, taskId = null, roomId = null) {
+    // Create modal if it doesn't exist
+    let modal = document.getElementById('task-modal');
+    if (!modal) {
+        modal = createTaskModal();
+        document.body.appendChild(modal);
+    }
+    
+    const isEdit = mode === 'edit';
+    const task = isEdit ? findTask(taskId, category, roomId) : null;
+    
+    // Update modal content
+    document.getElementById('modal-title').textContent = isEdit ? 'Edit Task' : 'Add New Task';
+    document.getElementById('task-text-input').value = task ? task.text : '';
+    
+    // Show/hide schedule fields based on category
+    updateScheduleFields(category, task);
+    
+    // Store modal state
+    modal.dataset.mode = mode;
+    modal.dataset.category = category;
+    modal.dataset.taskId = taskId;
+    modal.dataset.roomId = roomId;
+    
+    modal.classList.add('active');
+}
+
+function createTaskModal() {
+    const modal = document.createElement('div');
+    modal.id = 'task-modal';
+    modal.className = 'modal';
+    
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header" id="modal-title">Add New Task</div>
+            <div class="form-group">
+                <label class="form-label" for="task-text-input">Task Description</label>
+                <input type="text" id="task-text-input" class="form-input" placeholder="Enter task description">
+            </div>
+            <div id="schedule-fields"></div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeTaskModal()">Cancel</button>
+                <button class="btn-primary" onclick="saveTask()">Save</button>
+            </div>
+        </div>
+    `;
+    
+    return modal;
+}
+
+function updateScheduleFields(category, task = null) {
+    const container = document.getElementById('schedule-fields');
+    container.innerHTML = '';
+    
+    if (category === 'weekly') {
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        container.innerHTML = `
+            <div class="form-group">
+                <label class="form-label" for="day-select">Day of Week</label>
+                <select id="day-select" class="form-select">
+                    ${days.map((day, index) => 
+                        `<option value="${index}" ${task && task.day === index ? 'selected' : ''}>${day}</option>`
+                    ).join('')}
+                </select>
+            </div>
+        `;
+    } else if (category === 'monthly') {
+        container.innerHTML = `
+            <div class="form-group">
+                <label class="form-label" for="date-input">Date of Month</label>
+                <input type="number" id="date-input" class="form-input" min="1" max="31" 
+                       value="${task ? task.date : 1}" placeholder="1-31">
+            </div>
+        `;
+    } else if (category === 'yearly') {
+        const months = ['January', 'February', 'March', 'April', 'May', 'June',
+                       'July', 'August', 'September', 'October', 'November', 'December'];
+        container.innerHTML = `
+            <div class="form-group">
+                <label class="form-label" for="month-select">Month</label>
+                <select id="month-select" class="form-select">
+                    ${months.map((month, index) => 
+                        `<option value="${index + 1}" ${task && task.month === index + 1 ? 'selected' : ''}>${month}</option>`
+                    ).join('')}
+                </select>
+            </div>
+        `;
+    }
+}
+
+function findTask(taskId, category, roomId = null) {
+    if (category === 'focus' && roomId) {
+        return tasks.focus[roomId]?.find(task => task.id === taskId);
+    }
+    return tasks[category]?.find(task => task.id === taskId);
+}
+
+function saveTask() {
+    const modal = document.getElementById('task-modal');
+    const mode = modal.dataset.mode;
+    const category = modal.dataset.category;
+    const taskId = parseInt(modal.dataset.taskId);
+    const roomId = modal.dataset.roomId ? parseInt(modal.dataset.roomId) : null;
+    
+    const text = document.getElementById('task-text-input').value.trim();
+    if (!text) {
+        alert('Please enter a task description');
+        return;
+    }
+    
+    const taskData = { text, completed: false };
+    
+    // Add schedule data based on category
+    if (category === 'weekly') {
+        taskData.day = parseInt(document.getElementById('day-select').value);
+    } else if (category === 'monthly') {
+        taskData.date = parseInt(document.getElementById('date-input').value);
+    } else if (category === 'yearly') {
+        taskData.month = parseInt(document.getElementById('month-select').value);
+    }
+    
+    if (mode === 'edit') {
+        // Update existing task
+        const task = findTask(taskId, category, roomId);
+        if (task) {
+            Object.assign(task, taskData);
+        }
+    } else {
+        // Add new task
+        taskData.id = generateTaskId();
+        
+        if (category === 'focus' && roomId) {
+            if (!tasks.focus[roomId]) tasks.focus[roomId] = [];
+            tasks.focus[roomId].push(taskData);
+        } else {
+            tasks[category].push(taskData);
+        }
+    }
+    
+    saveTasksToStorage();
+    renderTasksView();
+    closeTaskModal();
+}
+
+function deleteTask(taskId, category, roomId = null) {
+    if (!confirm('Are you sure you want to delete this task?')) return;
+    
+    if (category === 'focus' && roomId && tasks.focus[roomId]) {
+        tasks.focus[roomId] = tasks.focus[roomId].filter(task => task.id !== taskId);
+    } else if (tasks[category]) {
+        tasks[category] = tasks[category].filter(task => task.id !== taskId);
+    }
+    
+    saveTasksToStorage();
+    renderTasksView();
+}
+
+function editTask(taskId, category, roomId = null) {
+    showTaskModal('edit', category, taskId, roomId);
+}
+
+function closeTaskModal() {
+    const modal = document.getElementById('task-modal');
+    if (modal) modal.classList.remove('active');
+}
+
+function generateTaskId() {
+    // Simple ID generation - find the highest existing ID and add 1
+    let maxId = 0;
+    
+    ['daily', 'weekly', 'monthly', 'quarterly', 'yearly'].forEach(category => {
+        tasks[category].forEach(task => {
+            if (task.id > maxId) maxId = task.id;
+        });
+    });
+    
+    Object.values(tasks.focus).forEach(roomTasks => {
+        roomTasks.forEach(task => {
+            if (task.id > maxId) maxId = task.id;
+        });
+    });
+    
+    return maxId + 1;
+}
+
+function saveTasksToStorage() {
+    localStorage.setItem('focusclean-tasks', JSON.stringify(tasks));
+}
+
+function loadTasksFromStorage() {
+    const saved = localStorage.getItem('focusclean-tasks');
+    if (saved) {
+        const savedTasks = JSON.parse(saved);
+        // Merge with defaults to ensure all categories exist
+        Object.assign(tasks, savedTasks);
+    }
+}
+
 // Initialize app
 function init() {
+    loadTasksFromStorage();
     renderTodayView();
     initNavigation();
 }

@@ -8,34 +8,98 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <div class="date" id="current-date">Sunday, July 6, 2025</div>
-            <h1 class="app-title">Today</h1>
+        <!-- Today View -->
+        <div id="today-view" class="page-view active">
+            <div class="header">
+                <div class="date" id="current-date">Sunday, July 6, 2025</div>
+                <h1 class="app-title">Today</h1>
+            </div>
+
+            <div class="focus-room">
+                <div class="focus-label">This Week's Focus</div>
+                <div class="focus-name" id="focus-room-name">Kitchen + Dining Room</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="focus-progress"></div>
+                </div>
+            </div>
+
+            <div class="today-progress">
+                <div class="progress-label">Today's Progress</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="today-progress"></div>
+                </div>
+            </div>
+
+            <div class="task-section">
+                <div class="section-header">
+                    <div class="section-title">Today's Tasks</div>
+                    <div class="task-count" id="task-count">0</div>
+                </div>
+                <div class="task-list" id="task-list">
+                    <!-- Tasks will be dynamically generated here -->
+                </div>
+            </div>
         </div>
 
-        <div class="focus-room">
-            <div class="focus-label">This Week's Focus</div>
-            <div class="focus-name" id="focus-room-name">Kitchen + Dining Room</div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="focus-progress"></div>
+        <!-- Tasks Management View -->
+        <div id="tasks-view" class="page-view">
+            <div class="header">
+                <h1 class="app-title">Manage Tasks</h1>
+            </div>
+
+            <div class="task-category" data-category="daily">
+                <div class="category-header">
+                    <h2 class="category-title">Daily Tasks</h2>
+                    <button class="add-task-btn" data-category="daily">+ Add</button>
+                </div>
+                <div class="category-tasks" id="daily-tasks"></div>
+            </div>
+
+            <div class="task-category" data-category="weekly">
+                <div class="category-header">
+                    <h2 class="category-title">Weekly Tasks</h2>
+                    <button class="add-task-btn" data-category="weekly">+ Add</button>
+                </div>
+                <div class="category-tasks" id="weekly-tasks"></div>
+            </div>
+
+            <div class="task-category" data-category="monthly">
+                <div class="category-header">
+                    <h2 class="category-title">Monthly Tasks</h2>
+                    <button class="add-task-btn" data-category="monthly">+ Add</button>
+                </div>
+                <div class="category-tasks" id="monthly-tasks"></div>
+            </div>
+
+            <div class="task-category" data-category="focus">
+                <div class="category-header">
+                    <h2 class="category-title">Focus Room Tasks</h2>
+                    <select id="focus-room-select" class="room-select">
+                        <option value="1">Kitchen + Dining Room</option>
+                        <option value="2">Bedroom + Bathroom</option>
+                        <option value="3">Guest Room + Office</option>
+                        <option value="4">Living Room + Mud Room</option>
+                        <option value="5">Porch + Garden + Yard</option>
+                    </select>
+                    <button class="add-task-btn" data-category="focus">+ Add</button>
+                </div>
+                <div class="category-tasks" id="focus-tasks"></div>
             </div>
         </div>
 
-        <div class="today-progress">
-            <div class="progress-label">Today's Progress</div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="today-progress"></div>
+        <!-- Schedule and Settings views placeholder -->
+        <div id="schedule-view" class="page-view">
+            <div class="header">
+                <h1 class="app-title">Schedule</h1>
             </div>
+            <p style="padding: 20px; text-align: center; color: #6c757d;">Coming soon...</p>
         </div>
 
-        <div class="task-section">
-            <div class="section-header">
-                <div class="section-title">Today's Tasks</div>
-                <div class="task-count" id="task-count">0</div>
+        <div id="settings-view" class="page-view">
+            <div class="header">
+                <h1 class="app-title">Settings</h1>
             </div>
-            <div class="task-list" id="task-list">
-                <!-- Tasks will be dynamically generated here -->
-            </div>
+            <p style="padding: 20px; text-align: center; color: #6c757d;">Coming soon...</p>
         </div>
     </div>
 
